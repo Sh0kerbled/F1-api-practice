@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Гонщики F1</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 30px;
+        background-color: #f7f7f7;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+      }
+      th {
+        background-color: #e10600; /* Цвет F1 */
+        color: white;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Список гонщиков F1 (Сезон 2026)</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Номер</th>
+          <th>Код</th>
+          <th>Имя</th>
+          <th>Фамилия</th>
+          <th>Национальность</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Итерация по переданному срезу гонщиков -->
+        {{range .}}
+        <tr>
+          <td>#{{if .PermanentNumber}}{{.PermanentNumber}}{{else}}-{{end}}</td>
+          <td><strong>{{.Code}}</strong></td>
+          <td>{{.FirstName}}</td>
+          <td>{{.LastName}}</td>
+          <td>{{.Nationality}}</td>
+          <td>{{.Driver}}</td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="6">Гонщики не найдены.</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </body>
+</html>
