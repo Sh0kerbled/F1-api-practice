@@ -14,7 +14,7 @@ type SessionResults struct {
 	Dnf          bool    `json:"dnf"`
 	Dns          bool    `json:"dns"`
 	Dsq          bool    `json:"dsq"`
-	duration     float64 `json:"duration"`
+	Duration     float64 `json:"duration"`
 }
 
 type Drivers struct {
@@ -40,10 +40,10 @@ type CombinedData struct {
 	Dnf          bool
 	Dns          bool
 	Dsq          bool
-	duration     float64
+	Duration     float64
 }
 
-func GetDriverData() {
+func GetDriverData() ([]CombinedData, error) {
 	//drivers data ------------------------------------------------------------------------------
 	driversUrl := "https://api.openf1.org/v1/drivers?session_key=11388"
 
@@ -77,12 +77,12 @@ func GetDriverData() {
 
 	err = json.Unmarshal(sessionBody, &s)
 	if err != nil {
-		fmt.Println("Ошибка парсинга данных", err)
+		return nil, fmt.Errorf("Ошибка парсинга данных %w", err)
 	}
 
-	for _, v := range CombineData(s, d) {
-		fmt.Println(v.FullName, v.Position, v.Points, v.TeamName)
-	}
+	combined := CombineData(s, d)
+
+	return combined, nil
 }
 
 func CombineData(results []SessionResults, drivers []Drivers) []CombinedData {
@@ -112,7 +112,7 @@ func CombineData(results []SessionResults, drivers []Drivers) []CombinedData {
 			Dnf:          r.Dnf,
 			Dns:          r.Dns,
 			Dsq:          r.Dsq,
-			duration:     r.duration,
+			Duration:     r.Duration,
 		}
 		combined = append(combined, data)
 	}
